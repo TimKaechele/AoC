@@ -9,16 +9,19 @@ fn main() {
   let lines = file_contents.lines();
   let integers = lines.map(|val : &str| val.to_string().parse::<i32>().unwrap());
 
-  let mut count = 0;
-  {
-    let mut prev : i32 = i32::MAX;
+  let integer_vec : Vec<i32> = integers.collect();
 
-    for i in integers {
-      if i > prev {
-        count += 1
-      }
-      prev = i;
+  let folded_windows = integer_vec.windows(3).map(|window| window.iter().fold(0, |collector, value| collector + value ));
+
+  let mut prev = i32::MAX;
+  let mut counter = 0;
+
+  for i in folded_windows {
+    if i > prev {
+      counter += 1
     }
+    prev = i;
   }
-  println!("{}", count);
+
+  println!("{}", counter)
 }
